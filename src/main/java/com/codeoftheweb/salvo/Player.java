@@ -3,8 +3,11 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,6 +29,13 @@ public class Player {
 
     public Player(String userName) {
         this.userName = userName;
+    }
+
+    public Map<String, Object> makePlayerDTO(){
+        Map<String, Object>     dto= new LinkedHashMap<>();
+        dto.put("id", this.getId());
+        dto.put("email", this.getUserName());
+        return dto;
     }
 
     //Función asociada al OneToMany
@@ -56,4 +66,8 @@ public class Player {
     public List<Game> getGames() {
         return gamePlayers.stream().map(sub -> sub.getGameID()).collect(toList());
     }
+
+    public Long getId() {return id;}
+
+    public void setId(Long id) {this.id = id;}
 }

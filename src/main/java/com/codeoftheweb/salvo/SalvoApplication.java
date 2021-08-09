@@ -45,13 +45,13 @@ public class SalvoApplication {
 			GamePlayer gamePlayer2= new GamePlayer(LocalDateTime.now(), game1, player2);
 			GamePlayer gamePlayer3= new GamePlayer(LocalDateTime.now().plusHours(1), game2, player1);
 			GamePlayer gamePlayer4= new GamePlayer(LocalDateTime.now().plusHours(1), game2, player2);
-			GamePlayer gamePlayer5= new GamePlayer(LocalDateTime.now().plusHours(2), game3, player1);
-			GamePlayer gamePlayer6= new GamePlayer(LocalDateTime.now().plusHours(2), game3, player2);
+			GamePlayer gamePlayer5= new GamePlayer(LocalDateTime.now().plusHours(2), game3, player2);
+			GamePlayer gamePlayer6= new GamePlayer(LocalDateTime.now().plusHours(2), game3, player3);
 			GamePlayer gamePlayer7= new GamePlayer(LocalDateTime.now().plusHours(3), game4, player1);
 			GamePlayer gamePlayer8= new GamePlayer(LocalDateTime.now().plusHours(3), game4, player2);
-			GamePlayer gamePlayer9= new GamePlayer(LocalDateTime.now().plusHours(4), game5, player1);
-			GamePlayer gamePlayer10= new GamePlayer(LocalDateTime.now().plusHours(4), game5, player2);
-			GamePlayer gamePlayer11= new GamePlayer(LocalDateTime.now().plusHours(5), game6, player1);
+			GamePlayer gamePlayer9= new GamePlayer(LocalDateTime.now().plusHours(4), game5, player3);
+			GamePlayer gamePlayer10= new GamePlayer(LocalDateTime.now().plusHours(4), game5, player1);
+			GamePlayer gamePlayer11= new GamePlayer(LocalDateTime.now().plusHours(5), game6, player4);
 			gamePlayerRepository.save(gamePlayer1);
 			gamePlayerRepository.save(gamePlayer2);
 			gamePlayerRepository.save(gamePlayer3);
