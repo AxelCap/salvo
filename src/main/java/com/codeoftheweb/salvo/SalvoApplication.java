@@ -19,10 +19,10 @@ public class SalvoApplication {
 	@Bean
 	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository) {    //playerRepository es el repositorio
 		return (args) -> {
-			Player player1 = new Player("axelcaputo89@gmail.com"); //Creo jugadores
-			Player player2 = new Player("acaputo@pioix.edu.ar");
-			Player player3 = new Player("Axo");
-			Player player4 = new Player("Cap");
+			Player player1 = new Player("j.bauer@ctu.gov"); //Creo jugadores
+			Player player2 = new Player("c.obrian@ctu.gov");
+			Player player3 = new Player("t.almeida@ctu.gov");
+			Player player4 = new Player("d.palmer@whitehouse.gov");
 			playerRepository.save(player1); //Los guardo en el repositorio
 			playerRepository.save(player2);
 			playerRepository.save(player3);
