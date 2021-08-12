@@ -27,6 +27,10 @@ public class GamePlayer {
     @JoinColumn(name="player_id")
     private Player playerID;
 
+    //Uno a muchos
+    @OneToMany(mappedBy="gamePlayerID", fetch=FetchType.EAGER)
+    Set<Ship> ships;
+
     //Constructores
     public GamePlayer() { }
 
@@ -39,7 +43,11 @@ public class GamePlayer {
     public Map<String, Object> makeGamePlayerDTO() {
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("id", this.getId());
-        dto.put("player", this.getPlayerID().makePlayerDTO());
+        dto.put("player", this.getPlayerID().makePlayerDTO()); //Devuelvo un solo elemento de player
+        dto.put("ship" ,this.getShips()         //Devuelvo un mapeo/lista  de ship
+                .stream()
+                .map(x -> x.makeShipDTO())
+                .collect(Collectors.toList()));
         return dto;
     }
 
@@ -49,9 +57,11 @@ public class GamePlayer {
     public Game getGameID() {return gameID;}
     public LocalDateTime getJoinDate() { return joinDate; }
     public Long getId() {return id;}
+    public Set<Ship> getShips() {return ships;}
 
     public void setPlayerID(Player playerID) {this.playerID = playerID;}
     public void setGameID(Game gameID) {this.gameID = gameID;}
     public void setJoinDate(LocalDateTime joinDate) { this.joinDate = joinDate; }
     public void setId(Long id) {this.id = id;}
+    public void setShips(Set<Ship> ships) {this.ships = ships;}
 }

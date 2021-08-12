@@ -6,18 +6,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class SalvoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SalvoApplication.class, args);
-	}
+	public static void main(String[] args) {SpringApplication.run(SalvoApplication.class, args);}//Permite runear el programa/Método que inicializa el proyecto
 
 	@Bean
-	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository) {    //playerRepository es el repositorio
+	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository) {    //playerRepository es el repositorio
 		return (args) -> {
 			Player player1 = new Player("j.bauer@ctu.gov"); //Creo jugadores
 			Player player2 = new Player("c.obrian@ctu.gov");
@@ -63,6 +63,17 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gamePlayer9);
 			gamePlayerRepository.save(gamePlayer10);
 			gamePlayerRepository.save(gamePlayer11);
+
+			Ship ship1= new Ship("Carrier", gamePlayer1, Arrays.asList("H1, H2, H3, H4, H5"));
+			Ship ship2= new Ship("Battleship", gamePlayer1, Arrays.asList("H1, H2, H3, H4"));
+			Ship ship3= new Ship("Cruiser", gamePlayer1, Arrays.asList("H1, H2, H3"));
+			Ship ship4= new Ship("Submarine", gamePlayer1, Arrays.asList("H1, H2, H3"));
+			Ship ship5= new Ship("Destroyer", gamePlayer1, Arrays.asList("H1, H2"));
+			shipRepository.save(ship1);
+			shipRepository.save(ship2);
+			shipRepository.save(ship3);
+			shipRepository.save(ship4);
+			shipRepository.save(ship5);
 
 		};
 	}
