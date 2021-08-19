@@ -23,7 +23,7 @@ public class Game {
     private LocalDateTime creationDate;
 
     //Uno a muchos
-    @OneToMany(mappedBy="gameID", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
     //Constructores
@@ -44,11 +44,10 @@ public class Game {
         return dto;
     }
 
-
     //Función asociada al OneToMany
 
     public void addGamePlayer(GamePlayer gamePlayer) {
-        gamePlayer.setGameID(this);
+        gamePlayer.setGame(this);
         gamePlayers.add(gamePlayer);
     }
 
@@ -80,6 +79,6 @@ public class Game {
 
     @JsonIgnore
     public List<Player> getPlayers() {
-        return gamePlayers.stream().map(sub -> sub.getPlayerID()).collect(toList());
+        return gamePlayers.stream().map(sub -> sub.getPlayer()).collect(toList());
     }
 }

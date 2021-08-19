@@ -34,7 +34,7 @@ public class SalvoController {
 
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
 
-        return gamePlayer.getGameID().makeGameDTO(); //Devuelvo para este gameplayer id, su juego ejecutando el makeGameDTO
+        return gamePlayer.makeGameViewDTO(); //Devuelvo para este gameplayer id, su juego ejecutando el makeGameDTO
     }
 
 }

@@ -21,7 +21,7 @@ public class Player {
     private String userName;
 
     //Uno a muchos
-    @OneToMany(mappedBy="playerID", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
     //Constructores
@@ -41,7 +41,7 @@ public class Player {
     //Función asociada al OneToMany
 
     public void addGamePlayer(GamePlayer gamePlayer) {
-        gamePlayer.setPlayerID(this);
+        gamePlayer.setPlayer(this);
         gamePlayers.add(gamePlayer);
     }
 
@@ -64,7 +64,7 @@ public class Player {
     }
 
     public List<Game> getGames() {
-        return gamePlayers.stream().map(sub -> sub.getGameID()).collect(toList());
+        return gamePlayers.stream().map(sub -> sub.getGame()).collect(toList());
     }
 
     public Long getId() {return id;}

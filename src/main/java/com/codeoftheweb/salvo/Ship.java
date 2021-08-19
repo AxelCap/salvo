@@ -25,14 +25,14 @@ public class Ship {
     //Muchos a uno
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gamePlayer_id")
-    private GamePlayer gamePlayerID;
+    private GamePlayer gamePlayer;
 
     //Constructores
     public Ship() { }
 
-    public Ship(String type, GamePlayer gamePlayerID, List<String> locations) {
+    public Ship(String type, GamePlayer gamePlayer, List<String> locations) {
         this.type = type;
-        this.gamePlayerID = gamePlayerID;
+        this.gamePlayer = gamePlayer;
         this.locations = locations;
     }
 
@@ -45,12 +45,12 @@ public class Ship {
 
     //Getters and Setters
     public Long getId() {return id;}
-    public GamePlayer getGamePlayerID() {return gamePlayerID;}
+    public GamePlayer getGamePlayer() {return gamePlayer;}
     public String getType() {return type;}
     public List<String> getLocations() {return locations;}
 
     public void setId(Long id) {this.id = id;}
-    public void setGamePlayerID(GamePlayer gamePlayerID) {this.gamePlayerID = gamePlayerID;}
+    public void setGamePlayer(GamePlayer gamePlayer) {this.gamePlayer = gamePlayer;}
     public void setType(String type) {this.type = type;}
     public void setLocations(List<String> locations) {this.locations = locations;}
 }

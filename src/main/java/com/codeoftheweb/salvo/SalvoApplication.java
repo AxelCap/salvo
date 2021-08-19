@@ -17,7 +17,7 @@ public class SalvoApplication {
 	public static void main(String[] args) {SpringApplication.run(SalvoApplication.class, args);}//Permite runear el programa/Método que inicializa el proyecto
 
 	@Bean
-	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository) {    //playerRepository es el repositorio
+	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository, SalvoRepository salvoRepository) {    //playerRepository es el repositorio
 		return (args) -> {
 			Player player1 = new Player("j.bauer@ctu.gov"); //Creo jugadores
 			Player player2 = new Player("c.obrian@ctu.gov");
@@ -64,16 +64,35 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gamePlayer10);
 			gamePlayerRepository.save(gamePlayer11);
 
-			Ship ship1= new Ship("Carrier", gamePlayer1, Arrays.asList("H1, H2, H3, H4, H5"));
-			Ship ship2= new Ship("Battleship", gamePlayer1, Arrays.asList("H1, H2, H3, H4"));
-			Ship ship3= new Ship("Cruiser", gamePlayer1, Arrays.asList("H1, H2, H3"));
-			Ship ship4= new Ship("Submarine", gamePlayer1, Arrays.asList("H1, H2, H3"));
-			Ship ship5= new Ship("Destroyer", gamePlayer1, Arrays.asList("H1, H2"));
+			Ship ship1= new Ship("Carrier", gamePlayer1, Arrays.asList("A1" , "A2", "A3", "A4", "A5"));
+			Ship ship2= new Ship("Battleship", gamePlayer1, Arrays.asList("B1", "B2", "B3", "B4"));
+			Ship ship3= new Ship("Cruiser", gamePlayer1, Arrays.asList("C1", "C2", "C3"));
+			Ship ship4= new Ship("Submarine", gamePlayer1, Arrays.asList("D1", "D2", "D3"));
+			Ship ship5= new Ship("Destroyer", gamePlayer1, Arrays.asList("E1", "E2"));
+			Ship ship6= new Ship("Carrier", gamePlayer2, Arrays.asList("A1" , "A2", "A3", "A4", "A5"));
+			Ship ship7= new Ship("Battleship", gamePlayer2, Arrays.asList("B1", "B2", "B3", "B4"));
+			Ship ship8= new Ship("Cruiser", gamePlayer2, Arrays.asList("C1", "C2", "C3"));
+			Ship ship9= new Ship("Submarine", gamePlayer2, Arrays.asList("D1", "D2", "D3"));
+			Ship ship10= new Ship("Destroyer", gamePlayer2, Arrays.asList("E1", "E2"));
 			shipRepository.save(ship1);
 			shipRepository.save(ship2);
 			shipRepository.save(ship3);
 			shipRepository.save(ship4);
 			shipRepository.save(ship5);
+			shipRepository.save(ship6);
+			shipRepository.save(ship7);
+			shipRepository.save(ship8);
+			shipRepository.save(ship9);
+			shipRepository.save(ship10);
+
+			Salvo salvo1= new Salvo(gamePlayer1, 1, Arrays.asList("A1", "A2", "A3", "A4", "A5"));
+			Salvo salvo2= new Salvo(gamePlayer2, 1, Arrays.asList("B1", "B2", "B3", "B4", "B5"));
+			Salvo salvo3= new Salvo(gamePlayer1, 2, Arrays.asList("C1", "C2", "C3", "C4", "C5"));
+			Salvo salvo4= new Salvo(gamePlayer2, 2, Arrays.asList("D1", "D2", "D3", "D4", "D5"));
+			salvoRepository.save(salvo1);
+			salvoRepository.save(salvo2);
+			salvoRepository.save(salvo3);
+			salvoRepository.save(salvo4);
 
 		};
 	}
