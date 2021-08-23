@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -31,6 +33,14 @@ public class Score {
         this.playerId = playerId;
         this.score = score;
         this.finishDate = finishDate;
+    }
+
+    public Map<String, Object> makeScoreDTO() {
+        Map<String, Object>     dto= new LinkedHashMap<>();
+        dto.put("player", this.getPlayerId().getId());
+        dto.put("score", this.getScore());
+        dto.put("finishDate", this.getFinishDate());
+        return dto;
     }
 
     //Getters and Setters

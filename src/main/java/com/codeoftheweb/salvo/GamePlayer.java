@@ -51,6 +51,10 @@ public class GamePlayer {
         return dto;
     }
 
+    Optional<GamePlayer()>{
+
+    }
+
     public Map<String, Object> makeGameViewDTO(){
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("id", this.getGame().getId());
@@ -90,3 +94,4 @@ public class GamePlayer {
     public void setSalvos(Set<Salvo> salvos) {this.salvos = salvos;}
 
 }
+

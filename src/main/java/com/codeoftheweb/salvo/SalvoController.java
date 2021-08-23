@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")    //para separar los repositorios de los controladores
 public class SalvoController {
 
-    @Autowired
+    @Autowired // Contstruye conexiones entre los elementos
     private GameRepository gameRepository;
 
     @Autowired

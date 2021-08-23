@@ -73,4 +73,12 @@ public class Player {
     public Long getId() {return id;}
 
     public void setId(Long id) {this.id = id;}
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
 }

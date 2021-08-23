@@ -17,7 +17,9 @@ public class SalvoApplication {
 	public static void main(String[] args) {SpringApplication.run(SalvoApplication.class, args);}//Permite runear el programa/Método que inicializa el proyecto
 
 	@Bean
-	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository, SalvoRepository salvoRepository) {    //playerRepository es el repositorio
+	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository,
+									  GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository,
+									  SalvoRepository salvoRepository, ScoreRepository scoreRepository) {    //playerRepository es el repositorio
 		return (args) -> {
 			Player player1 = new Player("j.bauer@ctu.gov"); //Creo jugadores
 			Player player2 = new Player("c.obrian@ctu.gov");
@@ -93,6 +95,11 @@ public class SalvoApplication {
 			salvoRepository.save(salvo2);
 			salvoRepository.save(salvo3);
 			salvoRepository.save(salvo4);
+
+			Score score1= new Score(game1, player1, 1f, LocalDateTime.now());
+			Score score2= new Score(game1, player2, 0f, LocalDateTime.now());
+			scoreRepository.save(score1);
+			scoreRepository.save(score2);
 
 		};
 	}

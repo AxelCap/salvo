@@ -44,6 +44,10 @@ public class Game {
                 .stream()
                 .map(gamePlayer -> gamePlayer.makeGamePlayerDTO())
                 .collect(Collectors.toList()));
+        dto.put("scores", this.getScores()
+                .stream()
+                .map(gp -> gp.makeScoreDTO())
+                .collect(Collectors.toList()));
         return dto;
     }
 
@@ -80,8 +84,17 @@ public class Game {
         this.gamePlayers = gamePlayers;
     }
 
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
     @JsonIgnore
     public List<Player> getPlayers() {
         return gamePlayers.stream().map(sub -> sub.getPlayer()).collect(toList());
     }
+
 }
