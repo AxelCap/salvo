@@ -3,10 +3,7 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -42,11 +39,12 @@ public class Player {
     }
 
     //Función asociada al OneToMany
-
+    /*
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setPlayer(this);
         gamePlayers.add(gamePlayer);
     }
+    */
 
 
     //Getters and Setters
@@ -80,5 +78,13 @@ public class Player {
 
     public void setScores(Set<Score> scores) {
         this.scores = scores;
+    }
+
+    public Optional<Score> getScore(Game game){
+        return this
+                .getScores()
+                .stream()
+                .filter(sc -> sc.getGameId().getId().equals(game.getId()))
+                .findFirst();
     }
 }

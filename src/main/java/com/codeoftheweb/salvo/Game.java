@@ -44,10 +44,21 @@ public class Game {
                 .stream()
                 .map(gamePlayer -> gamePlayer.makeGamePlayerDTO())
                 .collect(Collectors.toList()));
-        dto.put("scores", this.getScores()
+        dto.put("scores", this.getGamePlayers()
+                        .stream()
+                        .map(gp -> {
+                            if(gp.getScore().isPresent()){
+                                return gp.getScore().get().makeScoreDTO(); //get porque es un optional
+                            }else{
+                                return "en curso";
+                            }
+                        }));
+                /* //Manera fácil
+                this.getScores()
                 .stream()
                 .map(gp -> gp.makeScoreDTO())
                 .collect(Collectors.toList()));
+                 */
         return dto;
     }
 
