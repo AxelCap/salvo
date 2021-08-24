@@ -98,8 +98,12 @@ public class SalvoApplication {
 
 			Score score1= new Score(game1, player1, 1f, LocalDateTime.now());
 			Score score2= new Score(game1, player2, 0f, LocalDateTime.now());
+			Score score3= new Score(game2, player1, 1f, LocalDateTime.now());
+			Score score4= new Score(game2, player2, 0f, LocalDateTime.now());
 			scoreRepository.save(score1);
 			scoreRepository.save(score2);
+			scoreRepository.save(score3);
+			scoreRepository.save(score4);
 
 		};
 	}
