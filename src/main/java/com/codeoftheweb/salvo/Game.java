@@ -36,6 +36,7 @@ public class Game {
         this.creationDate = creationDate;
     }
 
+
     public Map<String, Object> makeGameDTO(){
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("id", this.getId());
@@ -63,12 +64,12 @@ public class Game {
     }
 
     //Función asociada al OneToMany
-
+    /*
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setGame(this);
         gamePlayers.add(gamePlayer);
     }
-
+    */
 
     //Getters and Setters
     public Long getId() {
