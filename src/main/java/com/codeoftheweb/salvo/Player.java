@@ -16,6 +16,7 @@ public class Player {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private String userName;
+    private String password;
 
     //Uno a muchos
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
@@ -27,9 +28,13 @@ public class Player {
     //Constructores
     public Player() { }
 
-    public Player(String userName) {
+    public Player(String userName, String password) {
+
         this.userName = userName;
+        this.password = password;
+
     }
+
 
     public Map<String, Object> makePlayerDTO(){
         Map<String, Object>     dto= new LinkedHashMap<>();
@@ -78,6 +83,14 @@ public class Player {
 
     public void setScores(Set<Score> scores) {
         this.scores = scores;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Optional<Score> getScore(Game game){
