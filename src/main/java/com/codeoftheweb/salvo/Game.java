@@ -6,10 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -35,7 +32,6 @@ public class Game {
     public Game(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
-
 
     public Map<String, Object> makeGameDTO(){
         Map<String, Object>     dto= new LinkedHashMap<>();

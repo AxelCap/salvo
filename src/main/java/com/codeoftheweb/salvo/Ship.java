@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Entity
 public class Ship {
@@ -19,8 +18,8 @@ public class Ship {
 
     //Crea una tabla que se divide en id y en "location" donde para cada id se muestran las posiciones forzadas en el commandlinerunner para cada id
     @ElementCollection
-    @Column(name="location")
-    private List<String> locations = new ArrayList<>();
+    @Column(name="shipLocation")
+    private List<String> shipLocations = new ArrayList<>();
 
     //Muchos a uno
     @ManyToOne(fetch = FetchType.EAGER)
@@ -30,16 +29,16 @@ public class Ship {
     //Constructores
     public Ship() { }
 
-    public Ship(String type, GamePlayer gamePlayer, List<String> locations) {
+    public Ship(String type, GamePlayer gamePlayer, List<String> shipLocations) {
         this.type = type;
         this.gamePlayer = gamePlayer;
-        this.locations = locations;
+        this.shipLocations = shipLocations;
     }
 
     public Map<String, Object> makeShipDTO(){
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("type", getType());
-        dto.put("locations", getLocations());
+        dto.put("locations", getShipLocations());
         return dto;
     }
 
@@ -47,10 +46,10 @@ public class Ship {
     public Long getId() {return id;}
     public GamePlayer getGamePlayer() {return gamePlayer;}
     public String getType() {return type;}
-    public List<String> getLocations() {return locations;}
+    public List<String> getShipLocations() {return shipLocations;}
 
     public void setId(Long id) {this.id = id;}
     public void setGamePlayer(GamePlayer gamePlayer) {this.gamePlayer = gamePlayer;}
     public void setType(String type) {this.type = type;}
-    public void setLocations(List<String> locations) {this.locations = locations;}
+    public void setShipLocations(List<String> shipLocations) {this.shipLocations = shipLocations;}
 }

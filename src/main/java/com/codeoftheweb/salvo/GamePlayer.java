@@ -16,6 +16,14 @@ public class GamePlayer {
     private Long id;
     private LocalDateTime joinDate;
 
+    @ElementCollection //En vez de crear una clase para con un solo atributo, creo un atributo solo
+    @Column(name="hits_self")
+    private List<String> self = new ArrayList<>();
+
+    @ElementCollection //En vez de crear una clase para con un solo atributo, creo un atributo solo
+    @Column(name="hits_opponent")
+    private List<String> opponent = new ArrayList<>();
+
     //Muchos a uno
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="game_id")
@@ -41,6 +49,13 @@ public class GamePlayer {
         this.player = player;
     }
 
+    public Map<String, Object> makeHitsDTO() {
+        Map<String, Object>     dto= new LinkedHashMap<>();
+        dto.put("self", self);
+        dto.put("opponent", opponent);
+        return dto;
+    }
+
     public Map<String, Object> makeGamePlayerDTO() {
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("id", this.getId());
@@ -58,6 +73,7 @@ public class GamePlayer {
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("id", this.getGame().getId());
         dto.put("created", this.getGame().getCreationDate());
+        dto.put("gameState", "PLACESHIPS");
         dto.put("gamePlayers", this.getGame().getGamePlayers()
                 .stream()
                 .map(gamePlayer -> gamePlayer.makeGamePlayerDTO())
@@ -72,7 +88,7 @@ public class GamePlayer {
                         .stream()
                         .map(salvo -> salvo.makeSalvoDTO()))
                 .collect(Collectors.toList()));
-
+        dto.put("hits", this.makeHitsDTO());
         return dto;
     }
 
