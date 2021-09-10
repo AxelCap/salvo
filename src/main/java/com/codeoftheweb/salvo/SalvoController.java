@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo;
 
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,7 +100,38 @@ public class SalvoController {
         }
     }
 
+    
 
+    @GetMapping("/games/players/{gamePlayerId}/ships")
+    public ResponseEntity<Map<String, Object>> getShips (@PathVariable  Long gamePlayerId,Authentication authentication){
+
+        Optional<GamePlayer> currentGameplayer = gamePlayerRepository.findById(gamePlayerId);
+
+        if(isGuest(authentication))
+        {
+            return new ResponseEntity<>(makeMap("Error", "Debe iniciar sesión"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(currentGameplayer.isEmpty())
+        {
+            return new ResponseEntity<>(makeMap("Error", "No existe este gamePlayer"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(!playerRepository.findByUserName(authentication.getName()).getGamePlayers().stream().anyMatch(gp -> gp==currentGameplayer.get()))
+        {
+            return new ResponseEntity<>(makeMap("Error", "No tiene acceso a este GamePlayer"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(currentGameplayer.get().getShips().size()==0)
+        {
+            return new ResponseEntity<>(makeMap("error", "No hay barcos colocados"), HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(makeMap("ships", currentGameplayer.get().getShips()
+                                    .stream()
+                                    .map(ship -> ship.makeShipDTO())
+                                    .collect(Collectors.toList())), HttpStatus.ACCEPTED);
+    }
 
     //Bad request 400 --> No cumple con los parámetros necesarios
     @PostMapping("/games/players/{gamePlayerId}/ships")
@@ -190,7 +222,7 @@ public class SalvoController {
             newShip.setGamePlayer(currentGamePlayer.get());
             shipRepository.save(newShip);
         }
-        return new ResponseEntity<>(makeMap("shipId", "Está bien"), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(makeMap("Bien!", "Colocó todo correctamente"), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping("/game_view/{nn}")
