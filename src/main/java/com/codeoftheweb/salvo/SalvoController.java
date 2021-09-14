@@ -32,6 +32,9 @@ public class SalvoController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SalvoRepository salvoRepository;
+
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
@@ -100,7 +103,71 @@ public class SalvoController {
         }
     }
 
-    
+    @GetMapping("/games/players/{gamePlayerId}/salvoes")
+    public ResponseEntity<Map<String, Object>> getSalvos (@PathVariable  Long gamePlayerId, @RequestBody Salvo salvo,Authentication authentication) {
+
+        if(isGuest(authentication))
+        {
+            return new ResponseEntity<>(makeMap("Error", "Debe iniciar sesión"), HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<GamePlayer> currentGameplayer = gamePlayerRepository.findById(gamePlayerId);
+        Optional<GamePlayer> currentGameplayer2 = currentGameplayer.get().getGame().getGamePlayers().stream().filter(gp -> gp!=currentGameplayer.get()).findFirst();
+
+        if(currentGameplayer.isEmpty() || currentGameplayer2.isEmpty())
+        {
+            return new ResponseEntity<>(makeMap("Error", "Este juego no está completo"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(playerRepository.findByUserName(authentication.getName()).getGamePlayers().stream().noneMatch(gp -> gp.equals(currentGameplayer.get())))
+        {
+            return new ResponseEntity<>(makeMap("Error", "No tiene acceso a este GamePlayer"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(currentGameplayer.get().getShips().size()!=5)
+        {
+            return new ResponseEntity<>(makeMap("Error", "Le faltan barcos"), HttpStatus.FORBIDDEN);
+        }
+
+        if(currentGameplayer2.get().getShips().size()!=5)
+        {
+            return new ResponseEntity<>(makeMap("Error", "Le faltan barcos a su rival"), HttpStatus.FORBIDDEN);
+        }
+
+        if(salvo.getSalvoLocations().size()<1 || salvo.getSalvoLocations().size()>5)
+        {
+            return new ResponseEntity<>(makeMap("Error", "Puede hacer de 1 a 5 disparos"), HttpStatus.FORBIDDEN);
+        }
+
+        if(currentGameplayer.get().getId()<currentGameplayer2.get().getId())
+        {
+            if(currentGameplayer.get().getSalvos().size() == currentGameplayer2.get().getSalvos().size())
+            {
+                salvo.setGamePlayerID(currentGameplayer.get());
+                salvo.setTurn(currentGameplayer.get().getSalvos().size()+1);
+                salvoRepository.save(salvo);
+            }
+            else
+            {
+                return new ResponseEntity<>(makeMap("error", "No es su turno"), HttpStatus.FORBIDDEN);
+            }
+        }
+        else
+        {
+            if(currentGameplayer.get().getSalvos().size() < currentGameplayer2.get().getSalvos().size())
+            {
+                salvo.setGamePlayerID(currentGameplayer.get());
+                salvo.setTurn(currentGameplayer.get().getSalvos().size()+1);
+                salvoRepository.save(salvo);
+            }
+            else{
+                return new ResponseEntity<>(makeMap("error", "No es su turno"), HttpStatus.FORBIDDEN);
+            }
+        }
+
+        return new ResponseEntity<>(makeMap("Ok", "Misiles lanzados"), HttpStatus.ACCEPTED);
+
+    }
 
     @GetMapping("/games/players/{gamePlayerId}/ships")
     public ResponseEntity<Map<String, Object>> getShips (@PathVariable  Long gamePlayerId,Authentication authentication){
