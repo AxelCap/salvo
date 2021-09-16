@@ -16,14 +16,6 @@ public class GamePlayer {
     private Long id;
     private LocalDateTime joinDate;
 
-    @ElementCollection //En vez de crear una clase para con un solo atributo, creo un atributo solo
-    @Column(name="hits_self")
-    private List<String> self = new ArrayList<>();
-
-    @ElementCollection //En vez de crear una clase para con un solo atributo, creo un atributo solo
-    @Column(name="hits_opponent")
-    private List<String> opponent = new ArrayList<>();
-
     //Muchos a uno
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="game_id")
@@ -49,10 +41,12 @@ public class GamePlayer {
         this.player = player;
     }
 
+    
+
     public Map<String, Object> makeHitsDTO() {
         Map<String, Object>     dto= new LinkedHashMap<>();
-        dto.put("self", self);
-        dto.put("opponent", opponent);
+        dto.put("self", new ArrayList<>());
+        dto.put("opponent", new ArrayList<>());
         return dto;
     }
 
