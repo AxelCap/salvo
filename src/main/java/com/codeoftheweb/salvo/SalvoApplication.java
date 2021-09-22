@@ -84,16 +84,16 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gamePlayer10);
 			gamePlayerRepository.save(gamePlayer11);
 
-			Ship ship1= new Ship("Carrier", gamePlayer1, Arrays.asList("A1" , "A2", "A3", "A4", "A5"));
-			Ship ship2= new Ship("Battleship", gamePlayer1, Arrays.asList("B1", "B2", "B3", "B4"));
-			Ship ship3= new Ship("Cruiser", gamePlayer1, Arrays.asList("C1", "C2", "C3"));
-			Ship ship4= new Ship("Submarine", gamePlayer1, Arrays.asList("D1", "D2", "D3"));
-			Ship ship5= new Ship("Destroyer", gamePlayer1, Arrays.asList("E1", "E2"));
-			Ship ship6= new Ship("Carrier", gamePlayer2, Arrays.asList("A1" , "A2", "A3", "A4", "A5"));
-			Ship ship7= new Ship("Battleship", gamePlayer2, Arrays.asList("B1", "B2", "B3", "B4"));
-			Ship ship8= new Ship("Cruiser", gamePlayer2, Arrays.asList("C1", "C2", "C3"));
-			Ship ship9= new Ship("Submarine", gamePlayer2, Arrays.asList("D1", "D2", "D3"));
-			Ship ship10= new Ship("Destroyer", gamePlayer2, Arrays.asList("E1", "E2"));
+			Ship ship1= new Ship("carrier", gamePlayer1, Arrays.asList("A1" , "A2", "A3", "A4", "A5"));
+			Ship ship2= new Ship("battleship", gamePlayer1, Arrays.asList("B1", "B2", "B3", "B4"));
+			Ship ship3= new Ship("cruiser", gamePlayer1, Arrays.asList("C1", "C2", "C3"));
+			Ship ship4= new Ship("submarine", gamePlayer1, Arrays.asList("D1", "D2", "D3"));
+			Ship ship5= new Ship("destroyer", gamePlayer1, Arrays.asList("E1", "E2"));
+			Ship ship6= new Ship("carrier", gamePlayer2, Arrays.asList("A1" , "A2", "A3", "A4", "A5"));
+			Ship ship7= new Ship("battleship", gamePlayer2, Arrays.asList("B1", "B2", "B3", "B4"));
+			Ship ship8= new Ship("cruiser", gamePlayer2, Arrays.asList("C1", "C2", "C3"));
+			Ship ship9= new Ship("submarine", gamePlayer2, Arrays.asList("D1", "D2", "D3"));
+			Ship ship10= new Ship("destroyer", gamePlayer2, Arrays.asList("E1", "E2"));
 			shipRepository.save(ship1);
 			shipRepository.save(ship2);
 			shipRepository.save(ship3);

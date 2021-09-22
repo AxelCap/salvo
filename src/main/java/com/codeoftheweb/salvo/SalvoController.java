@@ -145,6 +145,7 @@ public class SalvoController {
             {
                 salvo.setGamePlayerID(currentGameplayer.get());
                 salvo.setTurn(currentGameplayer.get().getSalvos().size()+1);
+                //salvo.setSalvoLocations(salvo.getSalvoLocations());
                 salvoRepository.save(salvo);
             }
             else
@@ -158,6 +159,7 @@ public class SalvoController {
             {
                 salvo.setGamePlayerID(currentGameplayer.get());
                 salvo.setTurn(currentGameplayer.get().getSalvos().size()+1);
+                //salvo.setSalvoLocations(salvo.getSalvoLocations());
                 salvoRepository.save(salvo);
             }
             else{
