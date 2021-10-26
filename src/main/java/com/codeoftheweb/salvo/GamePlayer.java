@@ -192,7 +192,7 @@ public class GamePlayer {
             damage.put("patrolboat", patrolboat);
 
             dto.put("turn", salvoActual.getTurn());
-            dto.put("hitLocation", hitLocations);
+            dto.put("hitLocations", hitLocations);
             dto.put("damages", damage);
             dto.put("missed", miss);
 
@@ -209,12 +209,153 @@ public class GamePlayer {
         return SelfOponnent;
     }
 
+    public String getGameState(){
+        String gameState= "";
+
+        GamePlayer gpActual=this;
+
+        //WAITINGFOROPP,
+        //WAIT,
+        //PLAY,
+        //PLACESHIPS,
+        //WON,
+        //LOST,
+        //TIE,
+        //UNDEFINED
+
+        if(gpActual.getShips().size() != 5){
+
+            gameState="PLACESHIPS";
+            return  gameState;
+        }
+
+        GamePlayer gpEnemigo=this.getGame().getGamePlayers().stream().filter(gp -> gp.getId()!=this.getId()).findFirst().orElse(null);
+
+        //Después de un stream min y max compara valores, y filtran el mínimo o máximo
+        GamePlayer gamePlayer1= this.getGame().getGamePlayers().stream().min(Comparator.comparing(gp -> gp.getId())).get();
+        GamePlayer gamePlayer2= this.getGame().getGamePlayers().stream().max(Comparator.comparing(gp -> gp.getId())).get();
+
+        //Después me fijo el turno de cada uno
+        int turnGp1= gamePlayer1.getSalvos().size();
+        int turnGp2= gamePlayer2.getSalvos().size();
+
+        if(gpEnemigo == null){
+
+            gameState="WAITINGFOROPP";
+            return gameState;
+        }
+
+
+
+        if(gpEnemigo.getShips().size() != 5){
+
+            gameState="WAIT";
+            return gameState;
+        }
+
+        //Creo listas para guardar las ubicaciones de mis ships y las del contrincante
+        List<String> myShipLocations = new ArrayList<>();
+        List<String> enemyShipLocations = new ArrayList<>();
+
+        for(Ship myShip : gpActual.getShips())
+        {
+            for(String Location : myShip.getShipLocations())
+            {
+                myShipLocations.add(Location);
+            }
+
+        }
+
+        for(Ship myShip : gpEnemigo.getShips())
+        {
+            for(String Location : myShip.getShipLocations())
+            {
+                enemyShipLocations.add(Location);
+            }
+
+        }
+
+        int Hits=0;
+        int Destruction=0;
+
+        for(Salvo mySalvo : gpActual.getSalvos())
+        {
+            for(String Location : mySalvo.getSalvoLocations())
+            {
+                if(enemyShipLocations.contains(Location))
+                {
+                    Hits++;
+                }
+            }
+        }
+
+        for(Salvo salvoEnemigo : gpEnemigo.getSalvos())
+        {
+            for(String Location : salvoEnemigo.getSalvoLocations())
+            {
+                if(myShipLocations.contains(Location))
+                {
+                    Destruction++;
+                }
+            }
+        }
+
+        if(turnGp1==turnGp2)
+        {
+            if(Hits==17 && Destruction==17)
+            {
+                gameState="TIE";
+                return  gameState;
+            }
+
+            if(Hits==17)
+            {
+                gameState="WON";
+                return  gameState;
+            }
+
+            if(Destruction==17)
+            {
+                gameState="LOST";
+                return  gameState;
+            }
+        }
+
+        if(this==gamePlayer1)
+        {
+            if(turnGp1==turnGp2)
+            {
+                gameState="PLAY";
+                return gameState;
+            }
+            else
+            {
+                gameState="WAIT";
+                return gameState;
+            }
+        }
+        else{
+
+            if(turnGp2<turnGp1)
+            {
+                gameState="PLAY";
+                return gameState;
+            }
+            else
+            {
+                gameState="WAIT";
+                return gameState;
+            }
+        }
+
+    }
+
     public Map<String, Object> makeHitsDTO() {
         Map<String, Object>     dto= new LinkedHashMap<>();
 
-        GamePlayer gpEnemigo= this.getGame().getGamePlayers().stream().filter(gp -> gp.getId()!=this.getId()).findFirst().get();
+        GamePlayer gpEnemigo= this.getGame().getGamePlayers().stream().filter(gp -> gp.getId()!=this.getId()).findFirst().orElse(null);
 
-        if(gpEnemigo == null)
+        if(gpEnemigo == null || this.getShips().size()!=5 || gpEnemigo.getShips().size()!=5)
         {
             dto.put("self", new ArrayList<>());
             dto.put("opponent", new ArrayList<>());
@@ -245,7 +386,7 @@ public class GamePlayer {
         Map<String, Object>     dto= new LinkedHashMap<>();
         dto.put("id", this.getGame().getId());
         dto.put("created", this.getGame().getCreationDate());
-        dto.put("gameState", "PLACESHIPS");
+        dto.put("gameState", getGameState());
         dto.put("gamePlayers", this.getGame().getGamePlayers()
                 .stream()
                 .map(gamePlayer -> gamePlayer.makeGamePlayerDTO())

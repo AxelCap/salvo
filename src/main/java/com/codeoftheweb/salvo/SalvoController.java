@@ -35,6 +35,9 @@ public class SalvoController {
     @Autowired
     private SalvoRepository salvoRepository;
 
+    @Autowired
+    private ScoreRepository scoreRepository;
+
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
@@ -103,7 +106,7 @@ public class SalvoController {
         }
     }
 
-    @GetMapping("/games/players/{gamePlayerId}/salvoes")
+    @PostMapping("/games/players/{gamePlayerId}/salvoes")
     public ResponseEntity<Map<String, Object>> getSalvos (@PathVariable  Long gamePlayerId, @RequestBody Salvo salvo,Authentication authentication) {
 
         if(isGuest(authentication))
@@ -298,6 +301,8 @@ public class SalvoController {
     public ResponseEntity<Map<String, Object>> findGamePlayer(@PathVariable Long nn, Authentication authentication) {
 
         Optional<GamePlayer>gamePlayer = gamePlayerRepository.findById(nn);
+        Player thisPlayer = gamePlayer.get().getPlayer();
+        Game thisGame = gamePlayer.get().getGame();
 
         if(!gamePlayer.isPresent()){
             return new ResponseEntity<>(makeMap("Error", "No existe este gameplayer"), HttpStatus.UNAUTHORIZED);
@@ -308,6 +313,21 @@ public class SalvoController {
             }
             else
             {
+                if(gamePlayer.get().getGameState().equals("WON"))
+                {
+                    Score newData= new Score(thisGame, thisPlayer, 1f, LocalDateTime.now());
+                    scoreRepository.save(newData);
+                }
+                if(gamePlayer.get().getGameState().equals("LOST"))
+                {
+                    Score newData= new Score(thisGame, thisPlayer, 0f, LocalDateTime.now());
+                    scoreRepository.save(newData);
+                }
+                if(gamePlayer.get().getGameState().equals("TIE"))
+                {
+                    Score newData= new Score(thisGame, thisPlayer, 0.5f, LocalDateTime.now());
+                    scoreRepository.save(newData);
+                }
                 return new ResponseEntity<>(gamePlayer.get().makeGameViewDTO(), HttpStatus.ACCEPTED);
             }
         }
